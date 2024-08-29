@@ -1,5 +1,6 @@
 package com.siftit.domain.oauth2demo.entities;
 
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

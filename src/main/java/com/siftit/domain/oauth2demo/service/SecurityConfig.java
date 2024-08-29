@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.interfaces.RSAPublicKey;
 
 @Configuration
 @EnableWebSecurity
@@ -75,13 +76,16 @@ public class SecurityConfig {
     @Value("${app.jwtSecret}")
     private String jwtSecret;
 
+//    @Bean
+//    public JwtDecoder jwtDecoder() {
+//        // Convert the JWT secret string into a SecretKey
+//        SecretKey key = new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256");
+//        return NimbusJwtDecoder.withSecretKey(key).build();
+//    }
     @Bean
     public JwtDecoder jwtDecoder() {
-        // Convert the JWT secret string into a SecretKey
-        SecretKey key = new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256");
-        return NimbusJwtDecoder.withSecretKey(key).build();
+        return NimbusJwtDecoder.withPublicKey((RSAPublicKey) jwtTokenProvider.getPublicKey()).build();
     }
-
 
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
